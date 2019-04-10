@@ -54,18 +54,11 @@ public class MainActivity extends AppCompatActivity {
         retrofitInterfce.getAlbumData().enqueue(new Callback<List<Album>>() {
             @Override
             public void onResponse(Call<List<Album>> call, Response<List<Album>> response) {
-
-                Log.v("manju","Onsucccess");
-
-                mAlbumAdapter.updateAlbumList(response.body());
-
+               mAlbumAdapter.updateAlbumList(response.body());
             }
 
             @Override
             public void onFailure(Call<List<Album>> call, Throwable t) {
-
-                Log.v("manju","onFailure-->"+t.toString());
-
             }
         });
     }
