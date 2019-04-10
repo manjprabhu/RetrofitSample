@@ -1,5 +1,9 @@
 package com.example.retrofitdemo.view;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +14,7 @@ import com.example.retrofitdemo.R;
 import com.example.retrofitdemo.adatpters.AlbumAdapter;
 import com.example.retrofitdemo.adatpters.MarvelAdapter;
 import com.example.retrofitdemo.model.Album;
+import com.example.retrofitdemo.viewmodel.AlbumModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +31,26 @@ public class MainActivity extends AppCompatActivity {
     private MarvelAdapter mMarvelAdapter;
     private AlbumAdapter mAlbumAdapter;
 
+    private AlbumModel albumModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        albumModel = ViewModelProviders.of(this).get(AlbumModel.class);
+
         initview();
 //        initRequest();
 
-        initAlbumRequest();
+//        initAlbumRequest();
+
+        albumModel.getAlbumData().observe(this, new Observer<List<Album>>() {
+            @Override
+            public void onChanged(@Nullable List<Album> albumList) {
+                mAlbumAdapter.updateAlbumList(albumList);
+            }
+        });
     }
 
     private void initview() {
