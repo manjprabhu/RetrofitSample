@@ -14,8 +14,6 @@ import com.bumptech.glide.Glide;
 import com.example.retrofitdemo.R;
 import com.example.retrofitdemo.model.Album;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
@@ -29,7 +27,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         this.mContext = context;
         this.mAlbumsList = albumList;
     }
-
 
     @NonNull
     @Override

@@ -1,5 +1,6 @@
 package com.example.retrofitdemo.view;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
@@ -45,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         albumModel = ViewModelProviders.of(this).get(AlbumModel.class);
 
         initview();
-        initRequest();
+        observeData();
+//        initRequest();
 //        initAlbumRequest();
 
 //        albumModel.getAlbumData().observe(this, new Observer<List<Album>>() {
@@ -65,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_actorlist);
-        mRecyclerView.setAdapter(mMarvelAdapter);
-//        mRecyclerView.setAdapter(mAlbumAdapter);
+//        mRecyclerView.setAdapter(mMarvelAdapter);
+        mRecyclerView.setAdapter(mAlbumAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -99,9 +101,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Actor>> call, Throwable t) {
-                Log.v("manju","failure");
             }
         });
 
+    }
+
+    private void observeData() {
+        albumModel.getAlbumData().observe(this,mList -> {
+            mAlbumAdapter.updateAlbumList(mList);
+        });
     }
 }
