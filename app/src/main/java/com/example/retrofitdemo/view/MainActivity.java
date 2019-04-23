@@ -1,7 +1,6 @@
 package com.example.retrofitdemo.view;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +12,7 @@ import android.util.Log;
 import com.example.retrofitdemo.R;
 import com.example.retrofitdemo.adatpters.AlbumAdapter;
 import com.example.retrofitdemo.adatpters.MarvelAdapter;
+import com.example.retrofitdemo.databinding.ActivityMainBinding;
 import com.example.retrofitdemo.model.Album;
 import com.example.retrofitdemo.viewmodel.AlbumModel;
 
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private MarvelAdapter mMarvelAdapter;
     private AlbumAdapter mAlbumAdapter;
 
+    private ActivityMainBinding binding;
+
     private AlbumModel albumModel;
 
     @Override
@@ -38,29 +40,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+//        binding = DataBindingUtil.inflate(LayoutInflater.from(this),R.layout.activity_main,null, true);
+
         albumModel = ViewModelProviders.of(this).get(AlbumModel.class);
 
         initview();
-//        initRequest();
-
+        initRequest();
 //        initAlbumRequest();
 
-        albumModel.getAlbumData().observe(this, new Observer<List<Album>>() {
-            @Override
-            public void onChanged(@Nullable List<Album> albumList) {
-                mAlbumAdapter.updateAlbumList(albumList);
-            }
-        });
+//        albumModel.getAlbumData().observe(this, new Observer<List<Album>>() {
+//            @Override
+//            public void onChanged(@Nullable List<Album> albumList) {
+//                mAlbumAdapter.updateAlbumList(albumList);
+//            }
+//        });
     }
 
     private void initview() {
         mMarvelAdapter = new MarvelAdapter(new ArrayList<Actor>(0),this);
         mAlbumAdapter = new AlbumAdapter(this, new ArrayList<Album>(0));
 
+//        binding.rvActorlist.setAdapter(mAlbumAdapter);
+//        binding.rvActorlist.setLayoutManager(new LinearLayoutManager(this));
+
 
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_actorlist);
-//        mRecyclerView.setAdapter(mMarvelAdapter);
-        mRecyclerView.setAdapter(mAlbumAdapter);
+        mRecyclerView.setAdapter(mMarvelAdapter);
+//        mRecyclerView.setAdapter(mAlbumAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -76,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Album>> call, Throwable t) {
+
             }
         });
     }
@@ -92,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Actor>> call, Throwable t) {
+                Log.v("manju","failure");
             }
         });
 

@@ -27,6 +27,8 @@ public class AlbumModel extends ViewModel {
     private void loadAlbumdate() {
 
         network.RetrofitInterfce interfce = network.RetrofitClient.getRetrofitAlbumClient().create(network.RetrofitInterfce.class);
+//        network.RetrofitInterfce interfce = network.RetrofitClient.getRetrofitClient().create(network.RetrofitInterfce.class);
+
 
         interfce.getAlbumData().enqueue(new Callback<List<Album>>() {
             @Override

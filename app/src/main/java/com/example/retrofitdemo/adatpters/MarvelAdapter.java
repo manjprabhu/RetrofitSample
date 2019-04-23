@@ -3,6 +3,7 @@ package com.example.retrofitdemo.adatpters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import java.util.List;
 import model.Actor;
 
 public class MarvelAdapter extends RecyclerView.Adapter<MarvelAdapter.ViewHolder> {
+
+    private final String TAG = MarvelAdapter.class.getSimpleName();
 
     private List<Actor> actorList;
     private Context mContext;
@@ -39,10 +42,19 @@ public class MarvelAdapter extends RecyclerView.Adapter<MarvelAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
+        Log.v(TAG,"onBindViewHolder");
+
         viewHolder.mTextView.setText(actorList.get(i).getName());
-        Glide.with(mContext)
+//        Glide.with(mContext)
+//                .load(actorList.get(i).getImageurl())
+//                .error(Glide.with(viewHolder.mImageView).load(R.drawable.ic_launcher_background))
+//                .into(viewHolder.mImageView);
+
+        Picasso.with(mContext)
                 .load(actorList.get(i).getImageurl())
-                .error(Glide.with(viewHolder.mImageView).load(R.drawable.ic_launcher_background))
+                .centerCrop()
+                .resize(300,200)
+                .error(R.drawable.ic_launcher_background)
                 .into(viewHolder.mImageView);
     }
 
@@ -65,6 +77,7 @@ public class MarvelAdapter extends RecyclerView.Adapter<MarvelAdapter.ViewHolder
     }
 
     public void updateResponse(List<Actor> actors) {
+        Log.v(TAG,"updateResponse==>>"+actors.size());
         actorList = actors;
         notifyDataSetChanged();
     }
